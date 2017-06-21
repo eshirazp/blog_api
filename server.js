@@ -4,7 +4,10 @@ const blogPostsRouter = require('./blogPostsRouter');
 
 const app = express();
 
+/* Middleware for debugging */
 app.use(morgan('common'));
+
+/* Middleware that leads to the Rest API */
 app.use('/blog-posts', blogPostsRouter);
 
 app.get('/', (req, res) => res.send('Home Page'));

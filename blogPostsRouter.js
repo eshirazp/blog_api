@@ -1,17 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
+// Body Parser for post and put functions
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+// Filling the blog posts model with test data
 const {BlogPosts} = require('./model');
 BlogPosts.create('title1', 'content1', 'author1');
 BlogPosts.create('title2', 'content2', 'author2');
 BlogPosts.create('title3', 'content3', 'author3');
 BlogPosts.create('title4', 'content4', 'author4');
 
+// Retrieve all blog posts
 router.get('/', (req, res) => res.json(BlogPosts.get()));
 
+// Create new blog post with required fields for title, content, and author
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i=0; i < requiredFields.length; i++) {
@@ -26,11 +30,13 @@ router.post('/', jsonParser, (req, res) => {
   res.status(201).json(post);
 });
 
+// Delete specific, by id, blog post
 router.delete('/:id', (req, res) => {
   BlogPosts.delete(req.params.id);
   res.status(204).end();
 });
 
+// Update existing blog post with required fields for title, content, and author 
 router.put('/:id', jsonParser, (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i=0; i<requiredFields.length; i++) {
@@ -59,5 +65,6 @@ router.put('/:id', jsonParser, (req, res) => {
   res.status(204).end();
 }); 
 
+// export for server.js to use
 module.exports = router;
 
